@@ -3,7 +3,7 @@ import {Connection} from "mongoose"
 
 declare global {
     var mongoose: {
-        con: Connection | null;
+        conn: Connection | null;
         promise: Promise<Connection> | null;
     }
 }
