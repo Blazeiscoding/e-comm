@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./components/Providers";
 import Script from "next/script";
+import { NotificationProvider } from "./components/Notification";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,12 +30,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Script 
-        src= "https://checkout.razorpay.com/v1/checkout.js"
-        strategy="lazyOnload"/>
-        <Providers>
-        <main>{children}</main>
-        </Providers>
+        <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="lazyOnload"
+        />
+        <NotificationProvider>
+          <Providers>
+            <main>{children}</main>
+          </Providers>
+        </NotificationProvider>
       </body>
     </html>
   );

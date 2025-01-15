@@ -3,7 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useNotification } from "../components/Notification";
+import { NotificationProvider, useNotification } from "../components/Notification";
 import Link from "next/link";
 
 export default function Login() {
@@ -29,6 +29,7 @@ export default function Login() {
   };
 
   return (
+    <NotificationProvider>
     <div className="max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Login</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -72,5 +73,6 @@ export default function Login() {
         </p>
       </form>
     </div>
+    </NotificationProvider>
   );
 }

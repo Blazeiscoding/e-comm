@@ -27,7 +27,7 @@ class ApiClient {
       ...headers,
     };
 
-    const response = await fetch(`/api${endpoint}`, {
+    const response = await fetch(`/api/${endpoint}`, {
       method,
       headers: defaultHeaders,
       body: body ? JSON.stringify(body) : undefined,
