@@ -70,3 +70,27 @@ body {
     @apply bg-background text-foreground;
   }
 }
+/* Light mode (default) */
+body {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #ffffff;
+  }
+
+  /* Additional dark mode styles */
+  header, footer {
+    background-color: #333;
+  }
+
+  button {
+    background-color: #555;
+    color: #0b0b0b;
+  }
+}

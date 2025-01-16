@@ -1,9 +1,28 @@
 import { IOrder } from "@/models/Order";
-import { IProduct, ImageVariant } from "@/models/Product";
+import { IProduct, ImageVariant, ImageVariantType } from "@/models/Product";
 import { Types } from "mongoose";
 
-export type ProductFormData = Omit<IProduct, "_id">;
+export interface ProductFormData {
 
+  name: string;
+
+  description: string;
+
+  imageUrl: string;
+
+  variants: {
+
+    type?: ImageVariantType;
+
+    price?: number;
+
+    license?: string;
+
+    dimensions?: { width: number; height: number };
+
+  }[];
+
+}
 export interface CreateOrderData {
   productId: Types.ObjectId | string;
   variant: ImageVariant;
@@ -52,6 +71,12 @@ class ApiClient {
     return this.fetch<IProduct>("/products", {
       method: "POST",
       body: productData,
+    });
+  }
+
+  async deleteProduct(id: string) {
+    return this.fetch<{ message: string }>(`/products/${id}`, {
+      method: "DELETE",
     });
   }
 

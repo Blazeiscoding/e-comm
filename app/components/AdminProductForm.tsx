@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import FileUpload from "./FileUpload";
@@ -9,11 +7,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-
 import { Loader2, Plus, Trash2 } from "lucide-react";
 import { useNotification } from "./Notification";
 import { IMAGE_VARIANTS, ImageVariantType } from "@/models/Product";
 import { apiClient, ProductFormData } from "@/lib/api-client";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const variantOptions = [
+  { label: "Square", value: "SQUARE", dimensions: "1000x1000px" },
+  { label: "Wide", value: "WIDE", dimensions: "1080x1920px" },
+  { label: "Portrait", value: "PORTRAIT", dimensions: "1080x1440px" },
+];
+
+const licenseOptions = [
+  { label: "Personal", value: "personal" },
+  { label: "Commercial", value: "commercial" },
+];
 
 export default function AdminProductForm() {
   const [loading, setLoading] = useState(false);
@@ -120,55 +129,49 @@ export default function AdminProductForm() {
       <Card className="p-6 space-y-6">
         <h2 className="text-xl font-bold text-gray-800">Image Variants</h2>
 
-        {/* Improved Resolutions Display */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Object.values(IMAGE_VARIANTS).map((variant) => (
-            <div
-              key={variant.type}
-              className="flex items-center justify-between p-4 border border-gray-200 rounded-lg shadow-md bg-gray-50"
-            >
-              {/* Icon */}
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-blue-500 text-white rounded-full">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 10h11M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h6a2 2 0 012 2v5m0 0l2 2m-2-2v6"
-                    />
-                  </svg>
-                </div>
-                {/* Label */}
-                <div>
-                  <p className="text-sm font-medium text-gray-700">{variant.label}</p>
-                  <p className="text-xs text-gray-500">
-                    {variant.dimensions.width}x{variant.dimensions.height}px
-                  </p>
-                </div>
-              </div>
-              {/* Action */}
-            
-            </div>
-          ))}
-        </div>
-
         {/* Dynamic Variants Section */}
         {fields.map((field, index) => (
           <Card key={field.id} className="p-4 shadow-md space-y-4">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+              {/* Variant Type */}
+              <div>
+                <Label htmlFor={`variants.${index}.type`}>Variant Type</Label>
+                <Select
+                  defaultValue={field.type}
+                  {...register(`variants.${index}.type`)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select variant type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {variantOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                
+              </div>
+
+              {/* License Selection */}
               <div>
                 <Label htmlFor={`variants.${index}.license`}>License</Label>
-                <Input
+                <Select
+                  defaultValue={field.license}
                   {...register(`variants.${index}.license`)}
-                  placeholder="Personal or Commercial Use"
-                />
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select license type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {licenseOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>

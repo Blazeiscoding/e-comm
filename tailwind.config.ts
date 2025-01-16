@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import type { Config } from "tailwindcss";
 
 export default {
@@ -10,6 +11,8 @@ export default {
   theme: {
   	extend: {
   		colors: {
+			'dark-background': '#121212',
+			'dark-text': '#ffffff',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
