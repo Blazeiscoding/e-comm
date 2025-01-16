@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 import { useNotification } from "./Notification";
-import { IMAGE_VARIANTS, ImageVariantType } from "@/models/Product";
+import {  ImageVariantType } from "@/models/Product";
 import { apiClient, ProductFormData } from "@/lib/api-client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
