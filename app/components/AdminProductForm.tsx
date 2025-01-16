@@ -7,7 +7,6 @@ import { IKUploadResponse } from "imagekitio-next/dist/types/components/IKUpload
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 
@@ -78,6 +77,7 @@ export default function AdminProductForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 max-w-4xl mx-auto">
+      {/* Product Details */}
       <Card className="p-6 space-y-6">
         <h2 className="text-xl font-bold text-gray-800">Product Details</h2>
 
@@ -116,37 +116,59 @@ export default function AdminProductForm() {
         </div>
       </Card>
 
+      {/* Image Variants */}
       <Card className="p-6 space-y-6">
         <h2 className="text-xl font-bold text-gray-800">Image Variants</h2>
 
+        {/* Improved Resolutions Display */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Object.values(IMAGE_VARIANTS).map((variant) => (
+            <div
+              key={variant.type}
+              className="flex items-center justify-between p-4 border border-gray-200 rounded-lg shadow-md bg-gray-50"
+            >
+              {/* Icon */}
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-blue-500 text-white rounded-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 10h11M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h6a2 2 0 012 2v5m0 0l2 2m-2-2v6"
+                    />
+                  </svg>
+                </div>
+                {/* Label */}
+                <div>
+                  <p className="text-sm font-medium text-gray-700">{variant.label}</p>
+                  <p className="text-xs text-gray-500">
+                    {variant.dimensions.width}x{variant.dimensions.height}px
+                  </p>
+                </div>
+              </div>
+              {/* Action */}
+            
+            </div>
+          ))}
+        </div>
+
+        {/* Dynamic Variants Section */}
         {fields.map((field, index) => (
           <Card key={field.id} className="p-4 shadow-md space-y-4">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
               <div>
-                <Label htmlFor={`variants.${index}.type`}>Size & Aspect Ratio</Label>
-                <div className="w-full max-w-md truncate">
-                  <Select
-                    {...register(`variants.${index}.type`)}
-                  >
-                  {Object.entries(IMAGE_VARIANTS).map(([key, value]) => (
-                    <option
-                      key={key}
-                      value={value.type}
-                      title={`${value.label} (${value.dimensions.width}x${value.dimensions.height})`}
-                    >
-                      {value.label} ({value.dimensions.width}x{value.dimensions.height})
-                    </option>
-                  ))}
-                  </Select>
-                </div>
-              </div>
-
-              <div>
                 <Label htmlFor={`variants.${index}.license`}>License</Label>
-                <Select {...register(`variants.${index}.license`)}>
-                  <option value="personal">Personal Use</option>
-                  <option value="commercial">Commercial Use</option>
-                </Select>
+                <Input
+                  {...register(`variants.${index}.license`)}
+                  placeholder="Personal or Commercial Use"
+                />
               </div>
 
               <div>
