@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { apiClient } from "@/lib/api-client";
-import { IProduct } from "@/models/Product";
+import { IMAGE_VARIANTS, IProduct } from "@/models/Product";
 import { Button } from "@/components/ui/button";
 import { useNotification } from "@/app/components/Notification"; // Adjust the import path
+import { IKImage } from "imagekitio-next";
+
+const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT; // Define the urlEndpoint variable
 
 const AdminProductList = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -52,8 +55,9 @@ const AdminProductList = () => {
           >
             <h3 className="text-xl font-semibold text-gray-800">{product.name}</h3>
             <p className="text-gray-600 text-sm mt-2">{product.description}</p>
-
+            <IKImage urlEndpoint={urlEndpoint} path={product.imageUrl} width={400} height={400} alt="Alt text" />
             <div className="mt-4 flex justify-between items-center">
+            
               <Button
                 variant="outline"
                 color="red"
@@ -62,6 +66,7 @@ const AdminProductList = () => {
                 Delete
               </Button>
             </div>
+            
           </div>
         ))}
       </div>

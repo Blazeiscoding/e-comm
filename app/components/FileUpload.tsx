@@ -26,7 +26,11 @@ export default function FileUpload({
 
   const handleStartUpload = () => {
     setUploading(true);
-    setError(null);
+/*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * Set uploading to true and clear any error message when the upload begins
+   */
+/******  b1b304b2-fbdc-45dc-b239-4ddaa8c492d0  *******/    setError(null);
   };
 
   return (
