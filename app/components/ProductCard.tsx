@@ -2,13 +2,12 @@ import { IKImage } from "imagekitio-next";
 import Link from "next/link";
 import { IProduct, IMAGE_VARIANTS } from "@/models/Product";
 import { Eye } from "lucide-react";
-import { Lens } from "@/components/ui/lens";
 
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
+
+
+
 export default function ProductCard({ product }: { product: IProduct }) {
-  const [hovering, setHovering] = useState(false);
+ 
 
   const lowestPrice = product.variants.reduce(
     (min, variant) => (variant.price < min ? variant.price : min),
@@ -22,7 +21,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
           href={`/products/${product._id}`}
           className="relative group w-full"
         >
-           <Lens hovering={hovering} setHovering={setHovering} >
+          
           <div
             className="rounded-xl overflow-hidden relative w-full"
             style={{
@@ -49,7 +48,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
             />
             
           </div>
-          </Lens>
+          
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 rounded-xl" />
         </Link>
       </figure>
