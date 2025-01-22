@@ -70,14 +70,8 @@ export default function ProductPage() {
         variant,
       });
 
-      const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
-      if (!razorpayKey) {
-        showNotification("Razorpay key is missing", "error");
-        return;
-      }
-
       const options = {
-        key: razorpayKey,
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount,
         currency: "USD",
         name: "ImageKit Shop",
@@ -91,6 +85,7 @@ export default function ProductPage() {
           email: session.user.email,
         },
       };
+
 
       const rzp = new (window as any).Razorpay(options);
       rzp.open();
