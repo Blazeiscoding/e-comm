@@ -13,6 +13,7 @@ import { Loader2, AlertCircle, Check, Image as ImageIcon } from "lucide-react";
 import { useNotification } from "@/app/components/Notification";
 import { useSession } from "next-auth/react";
 import { apiClient } from "@/lib/api-client";
+import { Lens } from "@/components/ui/lens";
 
 export default function ProductPage() {
   const params = useParams();
@@ -25,6 +26,7 @@ export default function ProductPage() {
   const { showNotification } = useNotification();
   const router = useRouter();
   const { data: session } = useSession();
+  const [hovering, setHovering] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -68,13 +70,14 @@ export default function ProductPage() {
         variant,
       });
 
-      // if (!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID) {
-      //   showNotification("Razorpay key is missing", "error");
-      //   return;
-      // }
+      const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+      if (!razorpayKey) {
+        showNotification("Razorpay key is missing", "error");
+        return;
+      }
 
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        key: razorpayKey,
         amount,
         currency: "USD",
         name: "ImageKit Shop",
@@ -133,31 +136,31 @@ export default function ProductPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Image Section */}
         <div className="space-y-4">
-          <div
-            className="relative rounded-lg overflow-hidden"
-            style={{
-              aspectRatio: selectedVariant
-                ? `${IMAGE_VARIANTS[selectedVariant.type].dimensions.width} / ${
-                    IMAGE_VARIANTS[selectedVariant.type].dimensions.height
-                  }`
-                : "1 / 1",
-            }}
-          >
-            <IKImage
-              urlEndpoint={process.env.NEXT_PUBLIC_URL_ENDPOINT}
-              path={product.imageUrl}
-              alt={product.name}
-              transformation={
-                selectedVariant
-                  ? getTransformation(selectedVariant.type)
-                  : getTransformation("SQUARE")
-              }
-              className="w-full h-full object-cover"
-              loading="eager"
-            />
-          </div>
-
-          {/* Image Dimensions Info */}
+          <Lens hovering={hovering} setHovering={setHovering}>
+            <div
+              className="relative rounded-lg overflow-hidden"
+              style={{
+                aspectRatio: selectedVariant
+                  ? `${IMAGE_VARIANTS[selectedVariant.type].dimensions.width} / ${
+                      IMAGE_VARIANTS[selectedVariant.type].dimensions.height
+                    }`
+                  : "1 / 1",
+              }}
+            >
+              <IKImage
+                urlEndpoint={process.env.NEXT_PUBLIC_URL_ENDPOINT}
+                path={product.imageUrl}
+                alt={product.name}
+                transformation={
+                  selectedVariant
+                    ? getTransformation(selectedVariant.type)
+                    : getTransformation("SQUARE")
+                }
+                className="w-full h-full object-cover"
+                loading="eager"
+              />
+            </div>
+          </Lens>
           {selectedVariant && (
             <div className="text-sm text-center text-base-content/70">
               Preview: {IMAGE_VARIANTS[selectedVariant.type].dimensions.width} x{" "}
@@ -170,12 +173,9 @@ export default function ProductPage() {
         <div className="space-y-6">
           <div>
             <h1 className="text-4xl font-bold mb-2">{product.name}</h1>
-            <p className="text-base-content/80 text-lg">
-              {product.description}
-            </p>
+            <p className="text-base-content/80 text-lg">{product.description}</p>
           </div>
 
-          {/* Variants Selection */}
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">Available Versions</h2>
             {product.variants.map((variant) => (
@@ -234,23 +234,6 @@ export default function ProductPage() {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* License Information */}
-          <div className="card bg-base-200">
-            <div className="card-body p-4">
-              <h3 className="font-semibold mb-2">License Information</h3>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-success" />
-                  <span>Personal: Use in personal projects</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-success" />
-                  <span>Commercial: Use in commercial projects</span>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
