@@ -81,7 +81,7 @@ body {
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #121212;
-    color: #ffffff;
+    color: #010101;
   }
 
   /* Additional dark mode styles */
