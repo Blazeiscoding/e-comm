@@ -9,14 +9,20 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 import { useNotification } from "./Notification";
-import {  ImageVariantType } from "@/models/Product";
+import { ImageVariantType } from "@/models/Product";
 import { apiClient, ProductFormData } from "@/lib/api-client";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const variantOptions = [
-  { label: "Square", value: "SQUARE", dimensions: "1000x1000px" },
-  { label: "Wide", value: "WIDE", dimensions: "1080x1920px" },
-  { label: "Portrait", value: "PORTRAIT", dimensions: "1080x1440px" },
+  { label: "Square", value: "SQUARE", dimensions: { width: 1200, height: 1200 } },
+  { label: "Wide", value: "WIDE", dimensions: { width: 1920, height: 1080 } },
+  { label: "Portrait", value: "PORTRAIT", dimensions: { width: 1080, height: 1440 } },
 ];
 
 const licenseOptions = [
@@ -138,7 +144,16 @@ export default function AdminProductForm() {
                 <Label htmlFor={`variants.${index}.type`}>Variant Type</Label>
                 <Select
                   defaultValue={field.type}
-                  {...register(`variants.${index}.type`)}
+                  onValueChange={(value) => {
+                    setValue(`variants.${index}.type`, value as ImageVariantType);
+                    const selectedVariant = variantOptions.find((v) => v.value === value);
+                    if (selectedVariant) {
+                      showNotification(
+                        `Dimensions updated: ${selectedVariant.dimensions.width}x${selectedVariant.dimensions.height}`,
+                        "info"
+                      );
+                    }
+                  }}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select variant type" />
@@ -151,7 +166,6 @@ export default function AdminProductForm() {
                     ))}
                   </SelectContent>
                 </Select>
-                
               </div>
 
               {/* License Selection */}
@@ -174,6 +188,7 @@ export default function AdminProductForm() {
                 </Select>
               </div>
 
+              {/* Price */}
               <div>
                 <Label htmlFor={`variants.${index}.price`}>Price ($)</Label>
                 <Input
@@ -195,6 +210,7 @@ export default function AdminProductForm() {
                 )}
               </div>
 
+              {/* Delete Button */}
               <div className="flex items-end justify-end">
                 <Button
                   variant="destructive"
