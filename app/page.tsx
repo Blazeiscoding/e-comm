@@ -26,7 +26,7 @@ export default function Home() {
   }, []);
 
   return (
-    <><main className="container mx-auto px-4 py-8">
+    <main className="container mx-auto px-4 py-8">
       <ContainerScroll
         titleComponent={<>
           <h1 className="text-4xl font-semibold text-white dark:text-white">
@@ -45,7 +45,7 @@ export default function Home() {
           className="mx-auto rounded-2xl object-cover h-full object-left-top"
           draggable={false} />
       </ContainerScroll>
-    </main><h1 className="text-3xl font-bold mb-8">Gallery Media Shop</h1><ImageGallery products={products} /></>
+   <h1 className="text-3xl font-bold mb-8">Gallery Media Shop</h1><ImageGallery products={products} /> </main>
     
   );
 }
