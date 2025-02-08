@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { HeroParallax } from "@/components/ui/hero-parallax";
-import { title } from "process";
 
 export function HeroParallaxD() {
   return <HeroParallax products={products} />;
@@ -31,5 +30,30 @@ export const products = [
         title: "Product 5",
         link: "#",
         thumbnail: "https://ik.imagekit.io/ocnsmwz76/hero5?updatedAt=1738255076660",
+    },
+    {
+        title: "Product 6",
+        link: "#",
+        thumbnail: "https://ik.imagekit.io/ocnsmwz76/hero6?updatedAt=1738380779860",
+    },
+    {
+        title: "Product 7",
+        link: "#",
+        thumbnail: "https://ik.imagekit.io/ocnsmwz76/hero7?updatedAt=1738380849152",
+    },
+    {
+        title: "Product 8",
+        link: "#",
+        thumbnail: "https://ik.imagekit.io/ocnsmwz76/hero8?updatedAt=1738380907530",
+    },
+    {
+        title: "Product 9",
+        link: "#",
+        thumbnail: "https://ik.imagekit.io/ocnsmwz76/hero9?updatedAt=1738380954465",
+    },
+    {
+        title: "Product 10",
+        link: "#",
+        thumbnail: "https://ik.imagekit.io/ocnsmwz76/hero10?updatedAt=1738380994748", 
     }
   ];
